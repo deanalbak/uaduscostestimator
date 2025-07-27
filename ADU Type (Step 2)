@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ADU Estimator - Step 2</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto+Flex:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #0b0c10;
+      --accent-color: #e63946;
+      --accent-color-dark: #ba1e2e;
+      --gray-light: #f0f2f5;
+      --gray-border: #dee2e6;
+      --font: 'Roboto Flex', 'Inter', sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background: var(--gray-light);
+      display: flex;
+      justify-content: center;
+      padding: 4rem 1rem;
+    }
+
+    .container {
+      max-width: 720px;
+      width: 100%;
+      background: white;
+      border-radius: 18px;
+      padding: 3rem;
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.08);
+    }
+
+    .step-bar {
+      margin-bottom: 2rem;
+    }
+
+    .step-label {
+      font-size: 0.9rem;
+      color: #6c757d;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: #e9ecef;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 20%;
+      background: var(--accent-color);
+    }
+
+    h1 {
+      font-size: 1.9rem;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      color: #555;
+      margin-bottom: 2rem;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .option {
+      border: 2px solid #ccc;
+      border-radius: 14px;
+      padding: 1.2rem 1.5rem;
+      background: #fff;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .option:hover {
+      border-color: var(--accent-color);
+    }
+
+    .option.active {
+      border-color: var(--accent-color);
+      background: #fff5f5;
+    }
+
+    .option-title {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      font-size: 1.1rem;
+    }
+
+    .option-desc {
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2.5rem;
+    }
+
+    button {
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.9rem 1.8rem;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .back-btn {
+      background: transparent;
+      color: #333;
+    }
+
+    .next-btn {
+      background: var(--accent-color);
+      color: white;
+    }
+
+    .next-btn:hover {
+      background: var(--accent-color-dark);
+    }
+
+    @media (max-width: 600px) {
+      .options {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="step-bar">
+      <div class="step-label">Step 2 of 6</div>
+      <div class="progress-track">
+        <div class="progress-fill"></div>
+      </div>
+    </div>
+
+    <h1>What type of ADU are you interested in?</h1>
+    <p class="subtitle">Select the option that best describes your project.</p>
+
+    <div class="options">
+      <div class="option" onclick="selectOption(this)">
+        <div class="option-title">Detached ADU</div>
+        <div class="option-desc">A standalone structure separate from your main home</div>
+      </div>
+      <div class="option" onclick="selectOption(this)">
+        <div class="option-title">Attached ADU</div>
+        <div class="option-desc">Connected to your existing home</div>
+      </div>
+      <div class="option" onclick="selectOption(this)">
+        <div class="option-title">Garage Conversion</div>
+        <div class="option-desc">Transform your existing garage into living space</div>
+      </div>
+      <div class="option" onclick="selectOption(this)">
+        <div class="option-title">Basement Conversion</div>
+        <div class="option-desc">Convert your basement into a separate unit</div>
+      </div>
+      <div class="option" onclick="selectOption(this)">
+        <div class="option-title">Not Sure Yet</div>
+        <div class="option-desc">I'm exploring my options</div>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="back-btn" onclick="goBack()">&#8592; Back</button>
+      <button class="next-btn" onclick="goNext()">Continue &#8594;</button>
+    </div>
+  </div>
+
+  <script>
+    let selectedValue = null;
+
+    function selectOption(el) {
+        document.querySelectorAll('.option').forEach(opt => opt.classList.remove('active'));
+        el.classList.add('active');
+        // Get the text from the title div
+        selectedValue = el.querySelector('.option-title').innerText;
+    }
+
+    function goBack() {
+        window.location.href = "index.html"; // Or step1.html
+    }
+
+    function goNext() {
+        if (!selectedValue) {
+            alert('Please select an ADU type.');
+            return;
+        }
+        // Save with the correct key 'adu_type' and as a JSON string
+        sessionStorage.setItem('adu_type', JSON.stringify(selectedValue));
+        window.location.href = "step3.html";
+    }
+</script>
+</body>
+</html>
